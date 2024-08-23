@@ -36,7 +36,9 @@ const PostCard = ({ content, createdAt, title, ImageUrl, genre }: Props) => {
 
         <h1 className="font-bold text-[25px]">{title}</h1>
 
-        <article className="flex-grow">{content}</article>
+        <article className="flex-grow text-pretty ">
+          {content.slice(0, 150)}...
+        </article>
 
         <Button
           size={"md"}
