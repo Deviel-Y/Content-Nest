@@ -29,6 +29,7 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   genre     Genre
+  imageUrl  String
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 }
