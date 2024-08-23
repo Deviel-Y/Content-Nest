@@ -28,6 +28,17 @@ model Post {
   content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  genre     Genre
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
+}
+
+enum Genre {
+  news
+  entertainment
+  sports
+  culture_and_art
+  health
+  education
+  tochnology
 }
