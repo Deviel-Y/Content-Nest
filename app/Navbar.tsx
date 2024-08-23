@@ -13,7 +13,7 @@ import NextImage from "next/image";
 const Navbar = () => {
   const navLinks: { label: string; value: string; href: string }[] = [
     { label: "Home", value: "home", href: "/" },
-    { label: "Posts", value: "posts", href: "/posts" },
+    { label: "Create New Posts", value: "createNewPosts", href: "/newPosts" },
     { label: "About Me", value: "aboutMe", href: "/aboutMe" },
   ];
 
