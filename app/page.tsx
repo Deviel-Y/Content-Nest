@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { Post } from "@prisma/client";
+import { Genre, Post } from "@prisma/client";
 import ActionBar from "./components/ActionBar";
 import PostCard from "./components/PostCard";
 
@@ -12,9 +12,11 @@ const Home = async ({ searchParams: { search } }: Props) => {
     where: { title: { contains: search } },
   });
 
+  const genres = Object.values(Genre);
+
   return (
     <>
-      <ActionBar />
+      <ActionBar genres={genres} />
       <div className="grid grid-cols-2 max-md:grid-cols-1 gap-y-8 gap-x-10 px-5">
         {posts.map((post) => (
           <PostCard
