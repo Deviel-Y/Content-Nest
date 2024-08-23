@@ -20,7 +20,9 @@ const PostCard = ({ content, createdAt, title, ImageUrl }: Props) => {
           as={NextImage}
           alt="Post image"
           src={ImageUrl}
-          className="bg-slate-400 w-56  max-md:w-[250px] max-md:h-[250px] rounded-2xl"
+          height={230}
+          width={320}
+          className="object-cover max-md:w-[250px] max-md:h-[250px] rounded-2xl"
         />
       </figure>
 
