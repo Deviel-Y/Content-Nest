@@ -3,8 +3,14 @@ import { Post } from "@prisma/client";
 import ActionBar from "./components/ActionBar";
 import PostCard from "./components/PostCard";
 
-const Home = async () => {
-  const posts: Post[] = await prisma.post.findMany();
+interface Props {
+  searchParams: { search: string };
+}
+
+const Home = async ({ searchParams: { search } }: Props) => {
+  const posts: Post[] = await prisma.post.findMany({
+    where: { title: { contains: search } },
+  });
 
   return (
     <>
