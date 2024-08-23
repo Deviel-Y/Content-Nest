@@ -35,11 +35,11 @@ model Post {
 }
 
 enum Genre {
-  news
-  entertainment
-  sports
-  culture_and_art
-  health
-  education
-  tochnology
+  NEWS
+  ENTERTAINMENT
+  SPORTS
+  CULTURE_AND_ART
+  HEALTH
+  EDUCATION
+  TECHNOLOGY
 }

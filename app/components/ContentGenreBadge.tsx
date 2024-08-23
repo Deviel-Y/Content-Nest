@@ -20,13 +20,13 @@ const ganreMap: Record<
       | "danger";
   }
 > = {
-  news: { label: "News", color: "default" },
-  entertainment: { label: "Entertainment", color: "primary" },
-  health: { label: "Health", color: "success" },
-  education: { label: "Education", color: "secondary" },
-  culture_and_art: { label: "Culture And Art", color: "warning" },
-  sports: { label: "Sports", color: "danger" },
-  tochnology: { label: "Tochnology", color: "default" },
+  NEWS: { label: "News", color: "default" },
+  ENTERTAINMENT: { label: "Entertainment", color: "primary" },
+  HEALTH: { label: "Health", color: "success" },
+  EDUCATION: { label: "Education", color: "secondary" },
+  CULTURE_AND_ART: { label: "Culture And Art", color: "warning" },
+  SPORTS: { label: "Sports", color: "danger" },
+  TECHNOLOGY: { label: "Technology", color: "default" },
 };
 
 const ContentGenreBadge = ({ genre, children }: Props) => {
