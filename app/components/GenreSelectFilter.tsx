@@ -3,7 +3,7 @@
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { Genre } from "@prisma/client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ReactElement } from "react";
+import { Key, ReactElement } from "react";
 import {
   FcFilmReel,
   FcGraduationCap,
@@ -21,7 +21,6 @@ interface Props {
 const GenreSelectFilter = ({ genres }: Props) => {
   const router = useRouter();
   const searchParam = useSearchParams();
-  const param = new URLSearchParams(searchParam);
 
   type GenreType = Record<
     Genre,
@@ -58,21 +57,19 @@ const GenreSelectFilter = ({ genres }: Props) => {
     },
   };
 
-  const handleChange = (value: string) => {
-    if (value.length === 0 && searchParam.size === 1) router.push("");
+  const handleChange = (value: Key | null) => {
+    const param = new URLSearchParams(searchParam.toString());
 
-    const selectedGenre = genres.find(
-      (genre) => genreMap[genre].label === value
-    );
-    if (selectedGenre) {
-      const genreValue = genreMap[selectedGenre].value;
-      router.push(`/?genreFilter=${genreValue}`);
-    }
+    if (searchParam.get("search"))
+      param.append("search", searchParam.get("search")!);
+
+    if (value) param.append("genreFilter", value as string);
+    router.push(`?genreFilter=${value}`);
   };
 
   return (
     <Autocomplete
-      onInputChange={handleChange}
+      onSelectionChange={handleChange}
       description="Filter post by their genres"
       variant="underlined"
       label="Genre Filter"

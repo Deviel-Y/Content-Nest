@@ -24,7 +24,7 @@ const ganreMap: Record<
   ENTERTAINMENT: { label: "Entertainment", color: "primary" },
   HEALTH: { label: "Health", color: "success" },
   EDUCATION: { label: "Education", color: "secondary" },
-  CULTURE_AND_ART: { label: "Culture And Art", color: "warning" },
+  CULTURE_AND_ART: { label: "Culture & Art", color: "warning" },
   SPORTS: { label: "Sports", color: "danger" },
   TECHNOLOGY: { label: "Technology", color: "default" },
 };
