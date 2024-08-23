@@ -1,8 +1,8 @@
 import { postSchema, PostSchemaType } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (request: NextResponse) => {
+export const POST = async (request: NextRequest) => {
   const body: PostSchemaType = await request.json();
   const { authorId, content, title, genre, imageUrl } = body;
 
