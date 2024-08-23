@@ -6,13 +6,14 @@ const Home = async () => {
   const posts: Post[] = await prisma.post.findMany();
 
   return (
-    <div className="grid grid-cols-2 max-md:grid-cols-1 max-md:gap-y-10 gap-x-10">
+    <div className="grid grid-cols-2 max-md:grid-cols-1 gap-y-8 gap-x-10 px-5">
       {posts.map((post) => (
         <PostCard
           key={post.id}
           content={post.content}
           createdAt={post.createdAt.toDateString()}
           title={post.title}
+          ImageUrl={post.imageUrl}
         />
       ))}
     </div>
