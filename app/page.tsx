@@ -14,7 +14,7 @@ const Home = async ({
   const genres = Object.values(Genre);
   const genre = genres.includes(genreFilter) ? genreFilter : undefined;
 
-  const pageSize: number = 4;
+  const pageSize: number = 6;
   const currentPage: number = pageNumber || 1;
 
   const posts: Post[] = await prisma.post.findMany({

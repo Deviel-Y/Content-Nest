@@ -13,25 +13,33 @@ const SearchBox = () => {
     setSearch(searchParams.get("search")!);
   }, [searchParams]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newSearchValue = event.target.value;
+  const handleSearchChange = (event: string) => {
+    const newSearchValue = event;
     setSearch(newSearchValue);
 
     const newParams = new URLSearchParams(searchParams.toString());
-    newParams.set("search", newSearchValue);
-    router.push(`?${newParams.toString()}`);
+    if (event) {
+      newParams.set("search", newSearchValue);
+    } else {
+      newParams.delete("search");
+    }
 
     if (searchParams.get("genreFilter"))
-      newParams.append("genreFilter", searchParams.get("genreFilter")!);
+      newParams.set("genreFilter", searchParams.get("genreFilter")!);
+
+    if (searchParams.get("pageNumber"))
+      newParams.set("pageNumber", searchParams.get("pageNumber")!);
+
+    router.push(`?${newParams.toString()}`);
   };
 
   return (
     <Input
       variant="underlined"
-      defaultValue={search}
       description="Search posts by their titles"
       label="Search"
-      onChange={handleSearchChange}
+      value={search || ""}
+      onValueChange={handleSearchChange}
     />
   );
 };

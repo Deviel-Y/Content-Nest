@@ -3,7 +3,7 @@
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { Genre } from "@prisma/client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Key, ReactElement } from "react";
+import { Key, ReactElement, useState } from "react";
 import {
   FcFilmReel,
   FcGraduationCap,
@@ -20,7 +20,8 @@ interface Props {
 
 const GenreSelectFilter = ({ genres }: Props) => {
   const router = useRouter();
-  const searchParam = useSearchParams();
+  const searchParams = useSearchParams();
+  const [genre, setGenre] = useState(searchParams.get("genreFilter") || "");
 
   type GenreType = Record<
     Genre,
@@ -58,13 +59,22 @@ const GenreSelectFilter = ({ genres }: Props) => {
   };
 
   const handleChange = (value: Key | null) => {
-    const param = new URLSearchParams(searchParam.toString());
+    setGenre(value as string);
+    const newParams = new URLSearchParams(searchParams.toString());
 
-    if (searchParam.get("search"))
-      param.append("search", searchParam.get("search")!);
+    if (value) {
+      newParams.set("genreFilter", value as string);
+    } else {
+      newParams.delete("genreFilter");
+    }
 
-    if (value) param.append("genreFilter", value as string);
-    router.push(`?genreFilter=${value}`);
+    if (searchParams.get("search"))
+      newParams.set("search", searchParams.get("search")!);
+
+    if (searchParams.get("pageNumber"))
+      newParams.set("pageNumber", searchParams.get("pageNumber")!);
+
+    router.push(`?${newParams.toString()}`);
   };
 
   return (
