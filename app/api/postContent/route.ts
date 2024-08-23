@@ -4,14 +4,14 @@ import { NextResponse } from "next/server";
 
 export const POST = async (request: NextResponse) => {
   const body: PostSchemaType = await request.json();
-  const { authorId, content, title } = body;
+  const { authorId, content, title, genre } = body;
 
   const validation = postSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json("Invalid Input", { status: 400 });
 
   const newPost = await prisma.post.create({
-    data: { content, title, authorId },
+    data: { content, title, authorId, genre },
   });
 
   return NextResponse.json(newPost, { status: 201 });
