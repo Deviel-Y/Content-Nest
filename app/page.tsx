@@ -10,6 +10,7 @@ const Home = async () => {
       {posts.map((post) => (
         <PostCard
           key={post.id}
+          genre={post.genre}
           content={post.content}
           createdAt={post.createdAt.toDateString()}
           title={post.title}
