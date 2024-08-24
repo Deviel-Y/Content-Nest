@@ -32,7 +32,7 @@ const ganreMap: Record<
 const ContentGenreBadge = ({ genre, children }: Props) => {
   return (
     <Badge
-      className="translate-x-8"
+      className="translate-x-7 -translate-y-5"
       size="lg"
       content={ganreMap[genre].label}
       color={ganreMap[genre].color}

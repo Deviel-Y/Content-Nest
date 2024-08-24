@@ -18,21 +18,21 @@ const PostCard = ({ content, createdAt, title, ImageUrl, genre }: Props) => {
       isBlurred
       className="flex flex-row max-md:flex-col max-md:h-auto h-64"
     >
-      <ContentGenreBadge genre={genre}>
-        <figure className="p-3 flex justify-center align-middle h-full">
+      <figure className="p-3 grid grid-cols-1 max-md:justify-center max-md:align-middle h-full">
+        <ContentGenreBadge genre={genre}>
           <Image
             as={NextImage}
             alt="Post image"
             src={ImageUrl}
             height={230}
             width={320}
-            className="object-cover max-md:w-[250px] max-md:h-[250px] rounded-2xl"
+            className="object-cover max-sm:translate-x-5 justify-self-center rounded-2xl "
           />
-        </figure>
-      </ContentGenreBadge>
+        </ContentGenreBadge>
+      </figure>
 
       <div className="flex flex-col p-4 gap-y-2 w-full">
-        <p className="text-gray-400 text-sm max-lg:mt-2">{createdAt}</p>
+        <p className="text-gray-400 text-sm max-[1024px]:mt-2">{createdAt}</p>
 
         <h1 className="font-bold text-[25px]">{title}</h1>
 

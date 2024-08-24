@@ -33,7 +33,7 @@ const Home = async ({
   return (
     <>
       <ActionBar genres={Object.values(Genre)} />
-      <div className="grid grid-cols-2 max-md:grid-cols-1 gap-y-8 gap-x-10 px-5">
+      <div className="grid grid-cols-2 max-[1024px]:grid-cols-1 gap-y-8 gap-x-10 px-5">
         {posts.map((post) => (
           <PostCard
             key={post.id}
