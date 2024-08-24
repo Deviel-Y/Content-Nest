@@ -14,6 +14,7 @@ import {
 } from "@nextui-org/react";
 import NextImage from "next/image";
 import { useState } from "react";
+import AuthenticationStatus from "./components/AuthenticationStatus";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -77,9 +78,7 @@ const Navbar = () => {
           ))}
         </NavbarMenu>
 
-        <NavbarContent className="justify-self-end">
-          <Link href="/api/auth/signin">Sign In</Link>
-        </NavbarContent>
+        <AuthenticationStatus />
       </div>
     </NextNavbar>
   );

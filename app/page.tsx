@@ -1,5 +1,6 @@
 import prisma from "@/prisma/client";
 import { Genre, Post } from "@prisma/client";
+import { auth } from "./auth";
 import ActionBar from "./components/ActionBar";
 import PaginationControl from "./components/PaginationControl";
 import PostCard from "./components/PostCard";
@@ -11,6 +12,8 @@ interface Props {
 const Home = async ({
   searchParams: { search, genreFilter, pageNumber },
 }: Props) => {
+  const session = await auth();
+
   const genres = Object.values(Genre);
   const genre = genres.includes(genreFilter) ? genreFilter : undefined;
 
