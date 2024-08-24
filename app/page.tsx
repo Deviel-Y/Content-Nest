@@ -30,6 +30,8 @@ const Home = async ({
     where: { genre, title: { contains: search } },
   });
 
+  if (!postCount) return null;
+
   return (
     <>
       <ActionBar genres={Object.values(Genre)} />
@@ -38,7 +40,7 @@ const Home = async ({
           <PostCard
             key={post.id}
             genre={post.genre}
-            content={post.content}
+            shortDescription={post.content}
             createdAt={post.createdAt.toDateString()}
             title={post.title}
             ImageUrl={post.imageUrl}

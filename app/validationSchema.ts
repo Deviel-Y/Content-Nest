@@ -7,6 +7,7 @@ export const postSchema = z.object({
   content: z.string().min(1).max(60_000),
   authorId: z.string().min(1),
   imageUrl: z.string().min(1),
+  shortDescription: z.string().min(1).max(150),
   genre: z.enum([
     "NEWS",
     "ENTERTAINMENT",

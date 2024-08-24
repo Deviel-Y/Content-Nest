@@ -6,12 +6,18 @@ import ContentGenreBadge from "./ContentGenreBadge";
 interface Props {
   createdAt: string;
   title: string;
-  content: string;
+  shortDescription: string;
   ImageUrl: string;
   genre: Genre;
 }
 
-const PostCard = ({ content, createdAt, title, ImageUrl, genre }: Props) => {
+const PostCard = ({
+  shortDescription,
+  createdAt,
+  title,
+  ImageUrl,
+  genre,
+}: Props) => {
   return (
     <Card
       shadow="md"
@@ -36,9 +42,7 @@ const PostCard = ({ content, createdAt, title, ImageUrl, genre }: Props) => {
 
         <h1 className="font-bold text-[25px]">{title}</h1>
 
-        <article className="flex-grow text-pretty ">
-          {content.slice(0, 150)}...
-        </article>
+        <article className="flex-grow text-pretty ">{shortDescription}</article>
 
         <Button
           size={"md"}

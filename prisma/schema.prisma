@@ -23,15 +23,16 @@ model User {
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String   @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  genre     Genre
-  imageUrl  String
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+  id               String   @id @default(cuid())
+  title            String
+  shortDescription String   @db.Char(150)
+  content          String   @db.Text
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  genre            Genre
+  imageUrl         String
+  author           User     @relation(fields: [authorId], references: [id])
+  authorId         String
 }
 
 enum Genre {
