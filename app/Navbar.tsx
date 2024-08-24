@@ -2,7 +2,6 @@
 
 import brandIcon from "@/public/brandIcon.png";
 import {
-  Button,
   Image,
   Link,
   NavbarBrand,
@@ -79,9 +78,7 @@ const Navbar = () => {
         </NavbarMenu>
 
         <NavbarContent className="justify-self-end">
-          <Link as={Button} variant="light" color="primary">
-            Sign In
-          </Link>
+          <Link href="/api/auth/signin">Sign In</Link>
         </NavbarContent>
       </div>
     </NextNavbar>
