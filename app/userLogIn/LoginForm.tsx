@@ -5,9 +5,9 @@ import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
   return (
-    <div className="w-full flex justify-center align-middle">
+    <div className="w-full flex justify-center items-center">
       <form className="w-2/3">
-        <Card className="flex flex-col px-5 py-2" shadow="lg">
+        <Card isBlurred className="flex flex-col p-5" shadow="lg">
           <h1 className="font-bold text-[25px]">Login</h1>
 
           <p className="text-[13px] mt-2 mb-5">
@@ -54,7 +54,7 @@ const LoginForm = () => {
           </Button>
 
           <p className="text-sm text-center mt-3">
-            Need to create an account?{" "}
+            Need to create an account?{"  "}
             <Link size="sm" href="#">
               Sign Up
             </Link>
