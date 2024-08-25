@@ -6,6 +6,10 @@ import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
 const authJsConfig = {
+  pages: {
+    signIn: "/userLogin",
+  },
+
   providers: [
     Google,
     GitHub,
@@ -36,7 +40,7 @@ const authJsConfig = {
 
         const isPasswordsMatch = await bcrypt.compare(
           credentials.password as string,
-          user.hashedPassword
+          user!.hashedPassword
         );
 
         return isPasswordsMatch ? user : null;
@@ -45,4 +49,4 @@ const authJsConfig = {
   ],
 };
 
-export const { handlers, auth } = NextAuth(authJsConfig);
+export const { handlers, auth, signIn, signOut } = NextAuth(authJsConfig);
