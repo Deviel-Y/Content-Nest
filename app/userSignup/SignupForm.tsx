@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Card, Divider, Input, Link } from "@nextui-org/react";
+import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineMail } from "react-icons/ai";
@@ -14,11 +15,10 @@ const LoginForm = () => {
     <div className="w-full flex justify-center items-center">
       <form
         className="w-2/3"
-        onSubmit={handleSubmit((data) => {
-          signIn("credentials", {
-            email: data.email,
-            password: data.password,
-          });
+        onSubmit={handleSubmit(({ email, password, confirmPassword }) => {
+          axios
+            .post("/api/user", { email, password, confirmPassword })
+            .then(() => signIn("credentials", { email, password }));
         })}
       >
         <Card isBlurred className="flex flex-col p-5" shadow="lg">
@@ -29,9 +29,7 @@ const LoginForm = () => {
           </p>
 
           <Button
-            onPress={() => {
-              signIn("google");
-            }}
+            onPress={() => signIn("google")}
             variant="bordered"
             className="mb-3"
           >
@@ -39,9 +37,7 @@ const LoginForm = () => {
           </Button>
 
           <Button
-            onPress={() => {
-              signIn("github");
-            }}
+            onPress={() => signIn("github")}
             variant="bordered"
             className="mb-5"
           >
@@ -65,7 +61,7 @@ const LoginForm = () => {
           />
 
           <Input
-            {...register("newPassword")}
+            {...register("password")}
             isRequired
             startContent={<BsKey size={19} />}
             endContent={<AiOutlineEye size={19} />}

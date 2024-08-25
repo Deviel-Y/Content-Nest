@@ -6,11 +6,18 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (request: NextRequest) => {
   try {
     const body: SignUpUserSchemaType = await request.json();
-    const { email, password } = body;
+    const { email, password, confirmPassword } = body;
 
     const validation = signUpUserSchema.safeParse(body);
     if (!validation.success)
-      return NextResponse.json("invalida Input", { status: 400 });
+      return NextResponse.json(validation.error.format(), {
+        status: 400,
+      });
+
+    if (password !== confirmPassword)
+      return NextResponse.json("Passwords don't match each other", {
+        status: 400,
+      });
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (user)
@@ -26,6 +33,6 @@ export const POST = async (request: NextRequest) => {
 
     return NextResponse.json(newUser);
   } catch (error) {
-    console.log(error);
+    return NextResponse.json(error);
   }
 };
