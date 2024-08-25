@@ -33,6 +33,7 @@ const Navbar = () => {
       onMenuOpenChange={setIsMenuOpen}
       maxWidth="full"
       height={"60px"}
+      isBordered
     >
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}

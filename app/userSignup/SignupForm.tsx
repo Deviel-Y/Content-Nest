@@ -22,10 +22,10 @@ const LoginForm = () => {
         })}
       >
         <Card isBlurred className="flex flex-col p-5" shadow="lg">
-          <h1 className="font-bold text-[25px]">Login</h1>
+          <h1 className="font-bold text-[25px]">Create Account</h1>
 
           <p className="text-[13px] mt-2 mb-5">
-            Log in to your account to continue
+            Sign up for a new account to get started
           </p>
 
           <Button
@@ -48,7 +48,7 @@ const LoginForm = () => {
             <DiGithubBadge size={28} /> Continue with Github
           </Button>
 
-          <div className="flex flex-row align-middle justify-center my-5">
+          <div className="flex flex-row align-middle justify-center my-2">
             <Divider className="w-2/5 self-center" />
             <p className="text-sm text-gray-500 mx-3">Or</p>
             <Divider className="w-2/5 self-center" />
@@ -59,20 +59,30 @@ const LoginForm = () => {
             isRequired
             startContent={<AiOutlineMail size={19} />}
             type="email"
-            className="mb-3"
             label="Email Address"
             placeholder="Enter Your Email"
             variant="underlined"
           />
 
           <Input
-            {...register("password")}
+            {...register("newPassword")}
             isRequired
             startContent={<BsKey size={19} />}
             endContent={<AiOutlineEye size={19} />}
             type="Password"
             label="Password"
-            placeholder="Enter Your Password"
+            className="my-3"
+            placeholder="Create a Password"
+            variant="underlined"
+          />
+
+          <Input
+            {...register("confirmPassword")}
+            isRequired
+            endContent={<AiOutlineEye size={19} />}
+            type="Password"
+            label="Password"
+            placeholder="Confirm Your Password"
             variant="underlined"
           />
           <p className="text-blue-700 text-sm mt-4 text-end">
@@ -89,9 +99,9 @@ const LoginForm = () => {
           </Button>
 
           <p className="text-sm text-center mt-3">
-            Need to create an account?{"  "}
-            <Link size="sm" href="/userSignup">
-              Sign Up
+            Already have an account?{"  "}
+            <Link size="sm" href="/api/auth/signin">
+              Log In
             </Link>
           </p>
         </Card>
