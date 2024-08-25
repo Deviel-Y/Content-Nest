@@ -15,12 +15,17 @@ import {
 } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import NextImage from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthenticationStatus from "./components/AuthenticationStatus";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const navLinks: { label: string; value: string; href: string }[] = [
     { label: "Home", value: "home", href: "/" },
@@ -42,22 +47,24 @@ const Navbar = () => {
       <div className="grid grid-cols-3 max-[768px]:grid-cols-2 w-full">
         <NavbarBrand>
           <Link href="/">
-            <Image
-              as={NextImage}
-              alt="Brand Icon"
-              src={
-                theme === "light"
-                  ? lightThemeBrandIcon.src
-                  : darkThemeBrandIcon.src
-              }
-              width="70"
-              height="70"
-            />
-            <p
-              className={`${
-                theme === "dark" && "text-white"
-              } font-extrabold max-[426px]:font-bold text-[20px] max-[426px]:text-[17px] ps-2 text-black`}
-            >
+            {isMounted && theme === "light" ? (
+              <Image
+                as={NextImage}
+                alt="Brand Icon"
+                src={lightThemeBrandIcon.src}
+                width="70"
+                height="70"
+              />
+            ) : (
+              <Image
+                as={NextImage}
+                alt="Brand Icon"
+                src={darkThemeBrandIcon.src}
+                width="70"
+                height="70"
+              />
+            )}
+            <p className="dark:text-white font-extrabold max-[426px]:font-bold text-[20px] max-[426px]:text-[17px] ps-2 text-black">
               Content Nest
             </p>
           </Link>

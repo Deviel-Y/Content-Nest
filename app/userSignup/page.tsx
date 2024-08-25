@@ -10,10 +10,10 @@ const SignupPage = () => {
         </p>
         <p className="font-semibold text-[16px] mt-3">
           Nest your content in happiness at Content Nest, where every post is
-          embraced by a positive and supportive community. It's a space designed
-          for sharing your stories, connecting with like-minded people, and
-          spreading joy. Here, your creativity thrives in an environment that
-          celebrates the best moments of life.
+          embraced by a positive and supportive community. It&apos;s a space
+          designed for sharing your stories, connecting with like-minded people,
+          and spreading joy. Here, your creativity thrives in an environment
+          that celebrates the best moments of life.
         </p>
       </div>
 
