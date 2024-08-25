@@ -1,6 +1,12 @@
 import z from "zod";
 
 export type PostSchemaType = z.infer<typeof postSchema>;
+export type SignUpUserSchemaType = z.infer<typeof signUpUserSchema>;
+
+export const signUpUserSchema = z.object({
+  email: z.string().min(1).max(30).email(),
+  password: z.string().min(1).max(50),
+});
 
 export const postSchema = z.object({
   title: z.string().min(1).max(191),
