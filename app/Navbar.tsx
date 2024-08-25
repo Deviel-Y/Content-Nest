@@ -30,7 +30,6 @@ const Navbar = () => {
       onMenuOpenChange={setIsMenuOpen}
       maxWidth="full"
       height={"60px"}
-      shouldHideOnScroll
     >
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
