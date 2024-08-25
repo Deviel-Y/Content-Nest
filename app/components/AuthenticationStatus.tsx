@@ -16,12 +16,14 @@ import {
 import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const AuthenticationStatus = () => {
   const { data, status } = useSession();
 
   return (
     <NavbarContent className="justify-self-end ">
+      <ThemeToggle />
       {status === "unauthenticated" && (
         <Button
           as={Link}

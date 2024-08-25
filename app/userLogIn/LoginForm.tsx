@@ -2,7 +2,6 @@
 
 import { Button, Card, Divider, Input, Link } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineKey, AiOutlineMail } from "react-icons/ai";
 import { DiGithubBadge } from "react-icons/di";
@@ -10,19 +9,15 @@ import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm();
-  const router = useRouter();
-
   return (
     <div className="w-full flex justify-center items-center">
       <form
         className="w-2/3"
-        onSubmit={handleSubmit(async (data) => {
-          const response = await signIn("credentials", {
+        onSubmit={handleSubmit((data) => {
+          signIn("credentials", {
             email: data.email,
             password: data.password,
           });
-
-          console.log(response);
         })}
       >
         <Card isBlurred className="flex flex-col p-5" shadow="lg">

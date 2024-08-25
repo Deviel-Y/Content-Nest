@@ -1,6 +1,7 @@
 "use client";
 
-import brandIcon from "@/public/brandIcon.png";
+import lightThemeBrandIcon from "@/public/brandIcon.png";
+import darkThemeBrandIcon from "@/public/ContentNestDarkTheme.png";
 import {
   Image,
   Link,
@@ -12,12 +13,14 @@ import {
   NavbarMenuToggle,
   Navbar as NextNavbar,
 } from "@nextui-org/react";
+import { useTheme } from "next-themes";
 import NextImage from "next/image";
 import { useState } from "react";
 import AuthenticationStatus from "./components/AuthenticationStatus";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme } = useTheme();
 
   const navLinks: { label: string; value: string; href: string }[] = [
     { label: "Home", value: "home", href: "/" },
@@ -41,11 +44,19 @@ const Navbar = () => {
             <Image
               as={NextImage}
               alt="Brand Icon"
-              src={brandIcon.src}
+              src={
+                theme === "light"
+                  ? lightThemeBrandIcon.src
+                  : darkThemeBrandIcon.src
+              }
               width="70"
               height="70"
             />
-            <p className="font-extrabold max-[426px]:font-bold text-[20px] max-[426px]:text-[17px] ps-2 text-black">
+            <p
+              className={`${
+                theme === "dark" && "text-white"
+              } font-extrabold max-[426px]:font-bold text-[20px] max-[426px]:text-[17px] ps-2 text-black`}
+            >
               Content Nest
             </p>
           </Link>
