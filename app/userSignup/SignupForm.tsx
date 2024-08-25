@@ -3,13 +3,20 @@
 import { Button, Card, Divider, Input, Link } from "@nextui-org/react";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { AiOutlineEye, AiOutlineMail } from "react-icons/ai";
+import {
+  AiFillEyeInvisible,
+  AiOutlineEye,
+  AiOutlineMail,
+} from "react-icons/ai";
 import { BsKey } from "react-icons/bs";
 import { DiGithubBadge } from "react-icons/di";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
   const { register, handleSubmit } = useForm();
   return (
     <div className="w-full flex justify-center items-center">
@@ -64,8 +71,22 @@ const LoginForm = () => {
             {...register("password")}
             isRequired
             startContent={<BsKey size={19} />}
-            endContent={<AiOutlineEye size={19} />}
-            type="Password"
+            endContent={
+              <Button
+                onPress={() => setIsVisible(!isVisible)}
+                size="sm"
+                isIconOnly
+                type="button"
+                radius="full"
+              >
+                {isVisible ? (
+                  <AiFillEyeInvisible size={19} />
+                ) : (
+                  <AiOutlineEye size={19} />
+                )}
+              </Button>
+            }
+            type={isVisible ? "text" : "Password"}
             label="Password"
             className="my-3"
             placeholder="Create a Password"
@@ -75,7 +96,6 @@ const LoginForm = () => {
           <Input
             {...register("confirmPassword")}
             isRequired
-            endContent={<AiOutlineEye size={19} />}
             type="Password"
             label="Password"
             placeholder="Confirm Your Password"
