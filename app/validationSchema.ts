@@ -2,6 +2,7 @@ import z from "zod";
 
 export type PostSchemaType = z.infer<typeof postSchema>;
 export type SignUpUserSchemaType = z.infer<typeof signUpUserSchema>;
+export type EditUserInfoSchemaType = z.infer<typeof editUserInfoSchema>;
 
 export const signUpUserSchema = z
   .object({
@@ -13,6 +14,17 @@ export const signUpUserSchema = z
     message: "Passwords don't match each other",
     path: ["confirmPassword"],
   });
+
+export const editUserInfoSchema = z.object({
+  firstName: z.string().min(3).max(30).optional().nullable(),
+  lastName: z.string().min(1).max(30).optional().nullable(),
+  email: z.string().min(1).max(30).email(),
+  imageUrl: z.string().optional().nullable(),
+  isPasswordFieldActive: z.boolean(),
+  oldPassword: z.string().min(1).optional(),
+  newPassword: z.string().min(1).optional(),
+  confirmPassword: z.string().min(1).optional(),
+});
 
 export const postSchema = z.object({
   title: z.string().min(1).max(191),
