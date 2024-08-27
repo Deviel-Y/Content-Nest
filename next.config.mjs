@@ -12,7 +12,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "fastly.picsum.photos",
+        hostname: "res.cloudinary.com",
       },
       {
         protocol: "https",
