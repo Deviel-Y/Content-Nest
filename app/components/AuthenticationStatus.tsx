@@ -16,6 +16,7 @@ import {
 import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import useUsers from "../hooks/useUsers";
 import ThemeToggle from "./ThemeToggle";
 
 const AuthenticationStatus = () => {
@@ -50,6 +51,8 @@ export const AvatarProfileControl = ({
   sessionData: Session;
 }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  const { data: users } = useUsers();
+  const user = users?.find((user) => user.email === sessionData.user?.email);
 
   return (
     <Popover
@@ -72,7 +75,13 @@ export const AvatarProfileControl = ({
           <div className="flex flex-col gap-y-1 m-2">
             <p className="text-lg">{sessionData.user?.name}</p>
             <p className="text-gray-500">{sessionData.user?.email}</p>
-            <Button className="mt-3 mb-1" size="sm" color="primary">
+            <Button
+              as={Link}
+              href={`/editUserProfile/${user?.id}`}
+              className="mt-3 mb-1"
+              size="sm"
+              color="primary"
+            >
               Update Profile
             </Button>
             <SignOutConfirmation />

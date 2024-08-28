@@ -1,7 +1,17 @@
 import { signUpUserSchema, SignUpUserSchemaType } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
+import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
+
+export const GET = async (request: NextRequest) => {
+  const user: User[] = await prisma.user.findMany();
+
+  if (user.length === 0)
+    return NextResponse.json("No User Found", { status: 404 });
+
+  return NextResponse.json(user);
+};
 
 export const POST = async (request: NextRequest) => {
   try {
