@@ -25,6 +25,8 @@ const LoginForm = () => {
           signIn("credentials", {
             email: data.email,
             password: data.password,
+            redirect: true,
+            callbackUrl: "/",
           });
         })}
       >
@@ -37,7 +39,7 @@ const LoginForm = () => {
 
           <Button
             onPress={() => {
-              signIn("google");
+              signIn("google", { redirect: true, callbackUrl: "/" });
             }}
             variant="bordered"
             className="mb-3"
@@ -47,7 +49,7 @@ const LoginForm = () => {
 
           <Button
             onPress={() => {
-              signIn("github");
+              signIn("github", { redirect: true, callbackUrl: "/" });
             }}
             variant="bordered"
             className="mb-5"

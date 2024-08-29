@@ -88,7 +88,7 @@ export const AvatarProfileControl = ({
               <Button
                 as={Link}
                 href={`/editUserProfile/${user?.id}`}
-                className="mt-3 mb-1"
+                className="mb-1"
                 size="sm"
                 color="primary"
               >
@@ -130,7 +130,11 @@ export const SignOutConfirmation = () => {
                 >
                   Close
                 </Button>
-                <Button size="sm" color="danger" onPress={() => signOut()}>
+                <Button
+                  size="sm"
+                  color="danger"
+                  onPress={() => signOut({ redirect: true, callbackUrl: "/" })}
+                >
                   Sign Out
                 </Button>
               </ModalFooter>
