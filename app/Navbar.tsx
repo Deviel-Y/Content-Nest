@@ -74,7 +74,7 @@ const Navbar = () => {
           {navLinks.map((navLink) => (
             <NavbarItem key={navLink.value}>
               <Link
-                className="text-blue-800 hover:text-blue-950 font-semibold"
+                className="text-blue-800 hover:text-blue-950 dark:text-blue-600 font-semibold"
                 href={navLink.href}
               >
                 {navLink.label}
@@ -87,7 +87,7 @@ const Navbar = () => {
           {navLinks.map((link) => (
             <NavbarMenuItem key={link.value}>
               <Link
-                className="text-black font-bold text-xl pt-5"
+                className="text-black font-bold dark:text-blue-600 text-xl pt-5"
                 href={link.href}
               >
                 {link.label}
