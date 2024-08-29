@@ -25,9 +25,9 @@ const EditUserProfileForm = ({ user }: Props) => {
   const { register, handleSubmit } = useForm<EditUserInfoSchemaType>();
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full mt-10 flex justify-center items-center">
       <form
-        className="w-2/3"
+        className="w-2/3 max-sm:w-full"
         onSubmit={handleSubmit(
           async ({
             firstName,
@@ -74,7 +74,7 @@ const EditUserProfileForm = ({ user }: Props) => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="flex flex-row gap-5">
+            <div className="flex flex-row gap-5 max-sm:flex-col">
               <Input
                 {...register("firstName")}
                 label="First Name"

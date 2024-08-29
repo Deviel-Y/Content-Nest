@@ -31,7 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           placeholder: "Account Password",
         },
       },
-      async authorize(credentials, request) {
+      async authorize(credentials) {
         if (!credentials.email || !credentials.password) return null;
 
         const user = await prisma.user.findUnique({
@@ -52,8 +52,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   callbacks: {
     async jwt({ token, user, session, account, trigger }) {
-      console.log("jwt callack", { token, user, session, account });
-
       if (trigger === "update") {
         token.name = session.name;
         token.email = session.email;
@@ -74,9 +72,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
 
-    async session({ session, token, user }) {
-      console.log("session callack", { token, user, session });
-
+    async session({ session, token }) {
       return {
         ...session,
         user: {

@@ -24,7 +24,11 @@ const ProfilePictureButton = ({ updateProfile }: Props) => {
       }}
     >
       {({ open }) => (
-        <Button className="me-10" color="secondary" onClick={() => open()}>
+        <Button
+          className="me-10 max-sm:me-2 max-sm:-translate-y-5"
+          color="secondary"
+          onPress={() => open()}
+        >
           Update Profile Image
         </Button>
       )}
