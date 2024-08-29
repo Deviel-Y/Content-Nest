@@ -1,8 +1,13 @@
+import { auth } from "@/app/auth";
 import { postSchema, PostSchemaType } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
+  const session = await auth();
+  if (!session)
+    return NextResponse.json("You're not authorized yet", { status: 401 });
+
   const body: PostSchemaType = await request.json();
   const { authorId, content, title, genre, imageUrl, shortDescription } = body;
 

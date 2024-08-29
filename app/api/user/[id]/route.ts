@@ -1,3 +1,4 @@
+import { auth } from "@/app/auth";
 import {
   editUserInfoSchema,
   EditUserInfoSchemaType,
@@ -14,6 +15,10 @@ export const PATCH = async (
   request: NextRequest,
   { params: { id } }: Props
 ) => {
+  const session = await auth();
+  if (!session)
+    return NextResponse.json("You're not authorized yet", { status: 401 });
+
   const body: EditUserInfoSchemaType = await request.json();
   const {
     firstName,

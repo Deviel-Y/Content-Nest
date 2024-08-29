@@ -1,3 +1,4 @@
+import { auth } from "@/app/auth";
 import { signUpUserSchema, SignUpUserSchemaType } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
 import { User } from "@prisma/client";
@@ -5,6 +6,10 @@ import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest) => {
+  const session = await auth();
+  if (!session)
+    return NextResponse.json("You're not authorized yet", { status: 401 });
+
   const user: User[] = await prisma.user.findMany();
 
   if (user.length === 0)
@@ -14,6 +19,10 @@ export const GET = async (request: NextRequest) => {
 };
 
 export const POST = async (request: NextRequest) => {
+  const session = await auth();
+  if (!session)
+    return NextResponse.json("You're not authorized yet", { status: 401 });
+
   try {
     const body: SignUpUserSchemaType = await request.json();
     const { email, password, confirmPassword } = body;
