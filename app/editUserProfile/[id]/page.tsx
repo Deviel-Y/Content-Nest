@@ -7,6 +7,7 @@ interface Props {
 
 const EditUserProfilePage = async ({ params: { id } }: Props) => {
   const user = await prisma.user.findUnique({ where: { id } });
+
   return <EditUserProfileForm user={user!} />;
 };
 

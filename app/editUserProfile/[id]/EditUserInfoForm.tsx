@@ -1,21 +1,65 @@
 "use client";
 
-import { Button, Card, Checkbox, Image, Input } from "@nextui-org/react";
+import ProfilePictureButton from "@/app/components/ProfilePictureButton";
+import { EditUserInfoSchemaType } from "@/app/validationSchema";
+import { Button, Card, Checkbox, Input } from "@nextui-org/react";
+import { User } from "@prisma/client";
+import axios from "axios";
 import { useSession } from "next-auth/react";
-import NextImage from "next/image";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-const EditUserProfileForm = () => {
-  const { data: session } = useSession();
-  const [isPasswordFieldVisible, setPasswordFieldVisible] =
+interface Props {
+  user: User;
+}
+
+const EditUserProfileForm = ({ user }: Props) => {
+  const { data: session, update } = useSession();
+
+  const [isPasswordFieldsActive, setIsPasswordFieldsActive] =
     useState<boolean>(false);
-  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [profileImageUrl, setProfileImageUrl] = useState<string>(
+    session?.user?.image as string
+  );
+
+  const { register, handleSubmit } = useForm<EditUserInfoSchemaType>();
 
   return (
     <div className="w-full flex justify-center items-center">
-      <form className="w-2/3">
+      <form
+        className="w-2/3"
+        onSubmit={handleSubmit(
+          async ({
+            firstName,
+            lastName,
+            oldPassword,
+            newPassword,
+            email,
+            confirmPassword,
+          }) => {
+            await axios
+              .patch(`/api/user/${user.id}`, {
+                firstName,
+                lastName,
+                email,
+                oldPassword,
+                newPassword,
+                confirmPassword,
+                imageUrl: profileImageUrl,
+                isPasswordFieldActive: isPasswordFieldsActive,
+              })
+              .then(() =>
+                update({
+                  ...session?.user,
+                  name: `${firstName} ${lastName}`,
+                  email,
+                })
+              );
+          }
+        )}
+      >
         <Card isBlurred className="flex flex-col p-5" shadow="lg">
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between items-center">
             <div>
               <h1 className="font-bold text-[25px]">Update Account</h1>
 
@@ -24,25 +68,31 @@ const EditUserProfileForm = () => {
               </p>
             </div>
 
-            <Image
-              radius="full"
-              as={NextImage}
-              width={90}
-              height={90}
-              alt="Profile Priture"
-              src={session?.user?.image!}
-              className="-translate-x-7 cursor-pointer hover:scale-105"
+            <ProfilePictureButton
+              updateProfile={(imageUrl) => setProfileImageUrl(imageUrl)}
             />
           </div>
 
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-5">
-              <Input label="First Name" variant="underlined" />
+              <Input
+                {...register("firstName")}
+                label="First Name"
+                defaultValue={user?.name?.split(" ")[0]}
+                variant="underlined"
+              />
 
-              <Input label="Last Name" variant="underlined" />
+              <Input
+                {...register("lastName")}
+                label="Last Name"
+                defaultValue={user?.name?.split(" ")[1]}
+                variant="underlined"
+              />
             </div>
 
             <Input
+              {...register("email")}
+              defaultValue={user?.email}
               type="email"
               label="Email Address"
               placeholder="example@domain.com"
@@ -50,26 +100,29 @@ const EditUserProfileForm = () => {
             />
 
             <div className="mt-10 flex flex-col gap-1 mb-3">
-              <Checkbox size="sm" onValueChange={setIsSelected}>
+              <Checkbox size="sm" onValueChange={setIsPasswordFieldsActive}>
                 I&apos;d like to change my password
               </Checkbox>
 
               <Input
-                disabled={!isSelected}
+                {...register("oldPassword")}
+                disabled={!isPasswordFieldsActive}
                 type="Password"
                 label="Current Password"
                 variant="underlined"
               />
 
               <Input
-                disabled={!isSelected}
+                {...register("newPassword")}
+                disabled={!isPasswordFieldsActive}
                 type="Password"
                 label="New Password"
                 variant="underlined"
               />
 
               <Input
-                disabled={!isSelected}
+                {...register("confirmPassword")}
+                disabled={!isPasswordFieldsActive}
                 type="Password"
                 label="Confirm Password"
                 variant="underlined"

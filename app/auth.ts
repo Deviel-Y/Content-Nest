@@ -5,10 +5,12 @@ import Credential from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
-const authJsConfig = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/userLogin",
   },
+
+  session: { strategy: "jwt" },
 
   providers: [
     Google,
@@ -47,6 +49,42 @@ const authJsConfig = {
       },
     }),
   ],
-};
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authJsConfig);
+  callbacks: {
+    async jwt({ token, user, session, account, trigger }) {
+      console.log("jwt callack", { token, user, session, account });
+
+      if (trigger === "update") {
+        token.name = session.name;
+        token.email = session.email;
+        token.picture = session.image;
+      }
+
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+          provider: account?.provider,
+          name: token.name,
+          email: token.email,
+          image: token.picture,
+        };
+      }
+
+      return token;
+    },
+
+    async session({ session, token, user }) {
+      console.log("session callack", { token, user, session });
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+          provider: token.provider,
+        },
+      };
+    },
+  },
+});

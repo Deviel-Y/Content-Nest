@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Avatar,
   Button,
@@ -52,7 +54,7 @@ export const AvatarProfileControl = ({
 }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const { data: users } = useUsers();
-  const user = users?.find((user) => user.email === sessionData.user?.email);
+  const user = users?.find((user) => user.id === sessionData.user?.id);
 
   return (
     <Popover
@@ -66,15 +68,16 @@ export const AvatarProfileControl = ({
           className="hover:scale-110 transition-all cursor-pointer"
           isBordered
           color="primary"
-          src={sessionData.user?.image!}
-          showFallback={false}
+          src={user?.imageUrl || sessionData.user?.image!}
         />
       </PopoverTrigger>
       <PopoverContent>
         {() => (
           <div className="flex flex-col gap-y-1 m-2">
-            <p className="text-lg">{sessionData.user?.name}</p>
-            <p className="text-gray-500">{sessionData.user?.email}</p>
+            <p className="text-lg">{user?.name || sessionData.user?.name}</p>
+            <p className="text-gray-500">
+              {user?.email || sessionData.user?.email}
+            </p>
             <Button
               as={Link}
               href={`/editUserProfile/${user?.id}`}

@@ -1,5 +1,5 @@
 "use client";
-import { Avatar } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 
@@ -11,8 +11,8 @@ interface CloudinaryOptions {
   secure_url: string;
 }
 
-const ProfilePicture = ({ updateProfile }: Props) => {
-  const [profileImage, setProfileImage] = useState<string>("");
+const ProfilePictureButton = ({ updateProfile }: Props) => {
+  const [profileImage, setProfileImage] = useState<string>();
 
   return (
     <CldUploadWidget
@@ -24,17 +24,12 @@ const ProfilePicture = ({ updateProfile }: Props) => {
       }}
     >
       {({ open }) => (
-        <Avatar
-          className="hover:scale-110 transition-all cursor-pointer"
-          onClick={() => open()}
-          isBordered
-          color="primary"
-          src={profileImage}
-          showFallback={false}
-        />
+        <Button className="me-10" color="secondary" onClick={() => open()}>
+          Update Profile Image
+        </Button>
       )}
     </CldUploadWidget>
   );
 };
 
-export default ProfilePicture;
+export default ProfilePictureButton;
