@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, Divider, Input, Link } from "@nextui-org/react";
 import axios from "axios";
 import { signIn } from "next-auth/react";
@@ -13,11 +14,18 @@ import {
 import { BsKey } from "react-icons/bs";
 import { DiGithubBadge } from "react-icons/di";
 import { FcGoogle } from "react-icons/fc";
+import { signUpUserSchema, SignUpUserSchemaType } from "../validationSchema";
 
 const LoginForm = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpUserSchemaType>({
+    resolver: zodResolver(signUpUserSchema),
+  });
   return (
     <div className="w-full flex justify-center items-center">
       <form
@@ -65,7 +73,15 @@ const LoginForm = () => {
             label="Email Address"
             placeholder="Enter Your Email"
             variant="underlined"
+            isInvalid={!!errors.email?.message}
           />
+          <p
+            className={`${
+              errors.email?.message?.length ? "opacity-100" : "opacity-0"
+            } transition-opacity duration-250 ease-in-out text-[13px] text-[#F31260] h-2`}
+          >
+            {errors.email?.message}
+          </p>
 
           <Input
             {...register("password")}
@@ -88,19 +104,38 @@ const LoginForm = () => {
             }
             type={isVisible ? "text" : "Password"}
             label="Password"
+            isInvalid={!!errors.password?.message}
             className="my-3"
             placeholder="Create a Password"
             variant="underlined"
           />
+          <p
+            className={`${
+              errors.password?.message?.length ? "opacity-100" : "opacity-0"
+            } transition-opacity duration-250 ease-in-out -mt-3 mb-5 text-[13px] text-[#F31260] h-2`}
+          >
+            {errors.password?.message}
+          </p>
 
           <Input
             {...register("confirmPassword")}
             isRequired
+            isInvalid={!!errors.confirmPassword?.message}
             type="Password"
             label="Password"
             placeholder="Confirm Your Password"
             variant="underlined"
           />
+          <p
+            className={`${
+              errors.confirmPassword?.message?.length
+                ? "opacity-100"
+                : "opacity-0"
+            } transition-opacity duration-250 ease-in-out text-[13px] text-[#F31260] h-2`}
+          >
+            {errors.confirmPassword?.message}
+          </p>
+
           <p className="text-blue-700 text-sm mt-4 text-end">
             Forget Password?
           </p>
