@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, Divider, Input, Link } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
@@ -12,11 +13,18 @@ import {
 import { BsKey } from "react-icons/bs";
 import { DiGithubBadge } from "react-icons/di";
 import { FcGoogle } from "react-icons/fc";
+import { signInUserSchema, SignInUserSchemaType } from "../validationSchema";
 
 const LoginForm = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignInUserSchemaType>({
+    resolver: zodResolver(signInUserSchema),
+  });
   return (
     <div className="w-full flex justify-center items-center">
       <form
@@ -68,11 +76,19 @@ const LoginForm = () => {
             isRequired
             startContent={<AiOutlineMail size={19} />}
             type="email"
-            className="mb-3"
+            className="mb-3 !transition-all"
             label="Email Address"
             placeholder="Enter Your Email"
             variant="underlined"
+            isInvalid={!!errors.email?.message}
           />
+          <p
+            className={`${
+              errors.email?.message?.length ? "opacity-100" : "opacity-0"
+            } transition-opacity duration-250 ease-in-out -mt-3 mb-3 text-[13px] text-[#F31260] h-2`}
+          >
+            {errors.email?.message}
+          </p>
 
           <Input
             {...register("password")}
@@ -97,12 +113,23 @@ const LoginForm = () => {
             label="Password"
             placeholder="Enter Your Password"
             variant="underlined"
+            isInvalid={!!errors.password?.message}
           />
+          <p
+            className={`${
+              errors.password?.message?.length ? "opacity-100" : "opacity-0"
+            } transition-opacity duration-250 ease-in-out text-[13px] text-[#F31260] h-2`}
+          >
+            {errors.password?.message}
+          </p>
+
           <p className="text-blue-700 text-sm mt-4 text-end">
             Forget Password?
           </p>
 
           <Button
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
             type="submit"
             variant="solid"
             color="primary"
