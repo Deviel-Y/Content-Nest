@@ -1,6 +1,6 @@
 "use client";
 
-import ProfilePictureButton from "@/app/components/ProfilePictureButton";
+import UploadPictureButton from "@/app/components/UploadPictureButton";
 import { EditUserInfoSchemaType } from "@/app/validationSchema";
 import { Button, Card, Checkbox, Input } from "@nextui-org/react";
 import { User } from "@prisma/client";
@@ -97,7 +97,7 @@ const EditUserProfileForm = ({ user }: Props) => {
               </p>
             </div>
 
-            <ProfilePictureButton
+            <UploadPictureButton
               updateProfile={(imageUrl) => setProfileImageUrl(imageUrl)}
             />
           </div>

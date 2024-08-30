@@ -11,7 +11,7 @@ interface CloudinaryOptions {
   secure_url: string;
 }
 
-const ProfilePictureButton = ({ updateProfile }: Props) => {
+const UploadPictureButton = ({ updateProfile }: Props) => {
   const [profileImage, setProfileImage] = useState<string>();
 
   return (
@@ -36,4 +36,4 @@ const ProfilePictureButton = ({ updateProfile }: Props) => {
   );
 };
 
-export default ProfilePictureButton;
+export default UploadPictureButton;
