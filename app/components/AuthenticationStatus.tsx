@@ -82,7 +82,8 @@ export const AvatarProfileControl = ({
           <div className="flex flex-col gap-y-1 m-2">
             <p className="text-lg">{user?.name || sessionData.user?.name}</p>
             <p className="text-gray-500 mb-3">
-              {user?.email || sessionData.user?.email}
+              {user?.email.toLowerCase() ||
+                sessionData.user?.email?.toLowerCase()}
             </p>
             {provider.provider === "credentials" && (
               <Button

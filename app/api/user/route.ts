@@ -19,10 +19,6 @@ export const GET = async (request: NextRequest) => {
 };
 
 export const POST = async (request: NextRequest) => {
-  const session = await auth();
-  if (!session)
-    return NextResponse.json("You're not authorized yet", { status: 401 });
-
   try {
     const body: SignUpUserSchemaType = await request.json();
     const { email, password, confirmPassword } = body;

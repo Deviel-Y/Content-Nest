@@ -35,23 +35,44 @@ export const signInUserSchema = z.object({
     .max(50, { message: "Password is too long" }),
 });
 
-export const editUserInfoSchema = z.object({
-  firstName: z.string().min(3).max(30).optional().nullable(),
-  lastName: z.string().min(1).max(30).optional().nullable(),
-  email: z
-    .string({ message: "Enter valid type of email" })
-    .min(1)
-    .max(40, { message: "Email is too long" })
-    .email(),
-  imageUrl: z.string().optional().nullable(),
-  isPasswordFieldActive: z.boolean(),
-  oldPassword: z
-    .string({ message: "Password must be at least 3 charachers long" })
-    .min(3)
-    .optional(),
-  newPassword: z.string().min(3).optional(),
-  confirmPassword: z.string().min(3).optional(),
-});
+export const editUserInfoSchema = z
+  .object({
+    firstName: z
+      .string()
+      .min(3, "Firstname is too short")
+      .max(30, "Firstname is too long")
+      .optional(),
+    lastName: z
+      .string()
+      .min(3, "Lastname is too short")
+      .max(30, "Lastname is too long")
+      .optional(),
+    email: z
+      .string()
+      .min(3, "Email must be at least 3 charachers long")
+      .max(40, "Email is too long")
+      .email({ message: "Enter valid type of email" }),
+    imageUrl: z.string().optional(),
+    isPasswordFieldActive: z.boolean(),
+    oldPassword: z
+      .string()
+      .min(3, "Password must be at least 3 charachers long")
+      .max(40, "Current password is too long")
+      .optional(),
+    newPassword: z
+      .string()
+      .min(3, "New password must be at least 3 charachers long")
+      .max(40, "New password is too long")
+      .optional(),
+    confirmPassword: z.string().optional(),
+  })
+  .refine(
+    ({ confirmPassword, newPassword }) => confirmPassword === newPassword,
+    {
+      message: "Passwords don't match each other",
+      path: ["confirmPassword"],
+    }
+  );
 
 export const postSchema = z.object({
   title: z.string().min(1).max(191),
