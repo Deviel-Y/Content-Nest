@@ -77,8 +77,8 @@ export const editUserInfoSchema = z
 export const postSchema = z.object({
   title: z.string().min(1).max(191),
   content: z.string().min(1).max(60_000),
-  authorId: z.string().min(1),
-  imageUrl: z.string().min(1),
+  authorId: z.string(),
+  imageUrl: z.string(),
   shortDescription: z.string().min(1).max(150),
   genre: z.enum([
     "NEWS",

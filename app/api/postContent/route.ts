@@ -8,16 +8,22 @@ export const POST = async (request: NextRequest) => {
   if (!session)
     return NextResponse.json("You're not authorized yet", { status: 401 });
 
-  const body: PostSchemaType = await request.json();
-  const { authorId, content, title, genre, imageUrl, shortDescription } = body;
+  try {
+    const body: PostSchemaType = await request.json();
+    const { authorId, content, title, genre, imageUrl, shortDescription } =
+      body;
 
-  const validation = postSchema.safeParse(body);
-  if (!validation.success)
-    return NextResponse.json("Invalid Input", { status: 400 });
+    const validation = postSchema.safeParse(body);
+    if (!validation.success)
+      return NextResponse.json("Invalid Input", { status: 400 });
 
-  const newPost = await prisma.post.create({
-    data: { content, title, authorId, genre, imageUrl, shortDescription },
-  });
+    const newPost = await prisma.post.create({
+      data: { content, title, authorId, genre, imageUrl, shortDescription },
+      include: { author: true },
+    });
 
-  return NextResponse.json(newPost, { status: 201 });
+    return NextResponse.json(newPost, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(error);
+  }
 };
