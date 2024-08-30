@@ -17,13 +17,12 @@ model User {
   id             String    @id @default(cuid())
   name           String?
   email          String?   @unique
-  username       String?   @unique
   emailVerified  DateTime?
   image          String?
+  hashedPassword String?
   accounts       Account[]
   sessions       Session[]
   posts          Post[]
-  hashedPassword String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

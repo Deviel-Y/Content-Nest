@@ -18,7 +18,7 @@ const PaginationControl = ({ totalPage, postCount }: Props) => {
     <Pagination
       showControls
       size="lg"
-      className="m-4 w-full"
+      className="w-full"
       initialPage={1}
       total={totalPage}
       onChange={(value) => {

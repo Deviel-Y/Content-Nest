@@ -22,7 +22,7 @@ const PostCard = ({
     <Card
       shadow="md"
       isBlurred
-      className="flex flex-row max-md:flex-col max-md:h-auto h-64"
+      className="flex flex-row max-md:flex-col max-md:h-auto h-64 dark:bg-[#27272A]"
     >
       <figure className="p-3 grid grid-cols-1 max-md:justify-center max-md:align-middle h-full">
         <ContentGenreBadge genre={genre}>

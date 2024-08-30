@@ -8,8 +8,8 @@ interface Props {
 
 const ActionBar = ({ genres }: Props) => {
   return (
-    <div className="my-5 flex max-md:flex-col justify-start max-lg:justify-stretch">
-      <div className="w-1/4 max-[1024px]:w-full ps-5">
+    <div className="flex max-md:flex-col justify-start max-lg:justify-stretch">
+      <div className="w-1/4 max-[1024px]:w-full">
         <SearchBox />
       </div>
 
