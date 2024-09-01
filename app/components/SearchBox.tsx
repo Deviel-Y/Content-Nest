@@ -27,8 +27,7 @@ const SearchBox = () => {
     if (searchParams.get("genreFilter"))
       newParams.set("genreFilter", searchParams.get("genreFilter")!);
 
-    if (searchParams.get("pageNumber"))
-      newParams.set("pageNumber", searchParams.get("pageNumber")!);
+    if (searchParams.get("pageNumber")) newParams.delete("pageNumber");
 
     router.push(`?${newParams.toString()}`);
   };

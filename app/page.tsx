@@ -28,6 +28,7 @@ const Home = async ({
 
   const postCount = await prisma.post.count({
     where: { genre, title: { contains: search } },
+    orderBy: { createdAt: "asc" },
   });
 
   return (
@@ -38,7 +39,7 @@ const Home = async ({
           <PostCard
             key={post.id}
             genre={post.genre}
-            shortDescription={post.content}
+            shortDescription={post.shortDescription}
             createdAt={post.createdAt.toDateString()}
             title={post.title}
             ImageUrl={post.imageUrl}

@@ -2,7 +2,7 @@
 
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { Genre } from "@prisma/client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Key } from "react";
 import { genreMap } from "../data";
 
@@ -13,7 +13,6 @@ interface Props {
 const GenreSelectFilter = ({ genres }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const path = usePathname();
 
   const handleChange = (value: Key | null) => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -27,8 +26,7 @@ const GenreSelectFilter = ({ genres }: Props) => {
     if (searchParams.get("search"))
       newParams.set("search", searchParams.get("search")!);
 
-    if (searchParams.get("pageNumber"))
-      newParams.set("pageNumber", searchParams.get("pageNumber")!);
+    if (searchParams.get("pageNumber")) newParams.delete("pageNumber");
 
     router.push(`?${newParams.toString()}`);
   };

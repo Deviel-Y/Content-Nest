@@ -12,6 +12,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "canto-wp-media.s3.amazonaws.com",
+      },
+      {
+        protocol: "https",
         hostname: "res.cloudinary.com",
       },
       {
