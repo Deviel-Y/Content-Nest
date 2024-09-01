@@ -24,7 +24,7 @@ export const PATCH = async (
     firstName,
     lastName,
     email,
-    imageUrl,
+    image,
     isPasswordFieldActive,
     newPassword,
     oldPassword,
@@ -41,12 +41,12 @@ export const PATCH = async (
   if (isPasswordFieldActive) {
     const isOldPasswordMatch = await bcrypt.compare(
       oldPassword!,
-      user.hashedPassword
+      user.hashedPassword!
     );
     if (!isOldPasswordMatch)
       return NextResponse.json("Old password is not correct", { status: 400 });
 
-    if (newPassword !== confirmPassword)
+    if (newPassword && confirmPassword && newPassword !== confirmPassword)
       return NextResponse.json("Password don't match", { status: 400 });
 
     var newHashedPassword = await bcrypt.hash(confirmPassword!, 10);
@@ -59,7 +59,7 @@ export const PATCH = async (
     data: {
       name,
       email,
-      imageUrl,
+      image,
       hashedPassword: newHashedPassword!,
     },
   });

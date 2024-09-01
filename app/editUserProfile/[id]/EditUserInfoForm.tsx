@@ -30,14 +30,14 @@ const EditUserProfileForm = ({ user }: Props) => {
   const [isPasswordFieldsActive, setIsPasswordFieldsActive] =
     useState<boolean>(false);
 
-  const [profileImageUrl, setProfileImageUrl] = useState<string>(
-    session?.user?.image as string
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(
+    user.image
   );
 
   const [inputFieldValues, setFieldValues] = useState<InputFields>({
     firstName: user?.name?.split(" ")[0],
     lastName: user?.name?.split(" ")[1],
-    email: user.email,
+    email: user.email!,
   });
 
   const {
@@ -47,7 +47,7 @@ const EditUserProfileForm = ({ user }: Props) => {
   } = useForm<EditUserInfoSchemaType>();
 
   const onSubmit = handleSubmit(
-    async ({
+    ({
       firstName,
       lastName,
       oldPassword,
@@ -55,7 +55,7 @@ const EditUserProfileForm = ({ user }: Props) => {
       email,
       confirmPassword,
     }) => {
-      const myPromise = axios
+      const requestPromise = axios
         .patch(`/api/user/${user.id}`, {
           firstName,
           lastName,
@@ -63,7 +63,7 @@ const EditUserProfileForm = ({ user }: Props) => {
           oldPassword,
           newPassword,
           confirmPassword,
-          imageUrl: profileImageUrl,
+          image: profileImageUrl,
           isPasswordFieldActive: isPasswordFieldsActive,
         })
         .then(() => {
@@ -72,14 +72,14 @@ const EditUserProfileForm = ({ user }: Props) => {
             name: `${firstName} ${lastName}`,
             email,
           });
-
+          toast.success("Profile Updated Successfully");
           router.push("/");
         });
 
-      toast.promise(myPromise, {
+      toast.promise(requestPromise, {
         error: "One of the input fields is invalid",
-        loading: "Updating profile...",
-        success: "Profile updated successfully",
+        loading: "Updating...",
+        success: "Profile Updated",
       });
     }
   );
@@ -149,7 +149,7 @@ const EditUserProfileForm = ({ user }: Props) => {
 
             <Input
               {...register("email")}
-              defaultValue={user?.email.toLowerCase()}
+              defaultValue={user?.email?.toLowerCase()}
               type="email"
               label="Email Address"
               placeholder="example@domain.com"

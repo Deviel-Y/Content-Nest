@@ -17,6 +17,7 @@ import {
 } from "@nextui-org/react";
 import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useUsers from "../hooks/useUsers";
 import ThemeToggle from "./ThemeToggle";
@@ -56,6 +57,7 @@ export const AvatarProfileControl = ({
 }: {
   sessionData: Session;
 }) => {
+  const router = useRouter();
   const provider = sessionData.user as SessionProvider;
 
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
@@ -74,7 +76,7 @@ export const AvatarProfileControl = ({
           className="hover:scale-110 transition-all cursor-pointer"
           isBordered
           color="primary"
-          src={user?.imageUrl || sessionData.user?.image!}
+          src={user?.image || sessionData.user?.image!}
         />
       </PopoverTrigger>
       <PopoverContent>
@@ -82,13 +84,12 @@ export const AvatarProfileControl = ({
           <div className="flex flex-col gap-y-1 m-2">
             <p className="text-lg">{user?.name || sessionData.user?.name}</p>
             <p className="text-gray-500 mb-3">
-              {user?.email.toLowerCase() ||
+              {user?.email?.toLowerCase() ||
                 sessionData.user?.email?.toLowerCase()}
             </p>
             {provider.provider === "credentials" && (
               <Button
-                as={Link}
-                href={`/editUserProfile/${user?.id}`}
+                onPress={() => router.push(`/editUserProfile/${user?.id}`)}
                 className="mb-1"
                 size="sm"
                 color="primary"
