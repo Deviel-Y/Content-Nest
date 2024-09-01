@@ -11,7 +11,6 @@ import {
   AiOutlineMail,
 } from "react-icons/ai";
 import { BsKey } from "react-icons/bs";
-import { DiGithubBadge } from "react-icons/di";
 import { FcGoogle } from "react-icons/fc";
 import { signInUserSchema, SignInUserSchemaType } from "../validationSchema";
 
@@ -53,16 +52,6 @@ const LoginForm = () => {
             className="mb-3"
           >
             <FcGoogle size={28} /> Continue with Google
-          </Button>
-
-          <Button
-            onPress={() => {
-              signIn("github", { redirect: true, callbackUrl: "/" });
-            }}
-            variant="bordered"
-            className="mb-5"
-          >
-            <DiGithubBadge size={28} /> Continue with Github
           </Button>
 
           <div className="flex flex-row align-middle justify-center my-5">

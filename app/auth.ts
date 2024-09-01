@@ -3,7 +3,6 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 import Credential from "next-auth/providers/credentials";
-import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -17,7 +16,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   providers: [
     Google,
-    GitHub,
     Credential({
       name: "Credentials",
       credentials: {

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, Divider, Input, Link } from "@nextui-org/react";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -12,11 +13,11 @@ import {
   AiOutlineMail,
 } from "react-icons/ai";
 import { BsKey } from "react-icons/bs";
-import { DiGithubBadge } from "react-icons/di";
 import { FcGoogle } from "react-icons/fc";
 import { signUpUserSchema, SignUpUserSchemaType } from "../validationSchema";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const {
@@ -33,7 +34,10 @@ const LoginForm = () => {
         onSubmit={handleSubmit(({ email, password, confirmPassword }) => {
           axios
             .post("/api/user", { email, password, confirmPassword })
-            .then(() => signIn("credentials", { email, password }));
+            .then(() => {
+              signIn("credentials", { email, password });
+              router.push("/");
+            });
         })}
       >
         <Card isBlurred className="flex flex-col p-5" shadow="lg">
@@ -44,19 +48,13 @@ const LoginForm = () => {
           </p>
 
           <Button
-            onPress={() => signIn("google")}
+            onPress={() =>
+              signIn("google", { redirect: true, callbackUrl: "/" })
+            }
             variant="bordered"
             className="mb-3"
           >
             <FcGoogle size={28} /> Continue with Google
-          </Button>
-
-          <Button
-            onPress={() => signIn("github")}
-            variant="bordered"
-            className="mb-5"
-          >
-            <DiGithubBadge size={28} /> Continue with Github
           </Button>
 
           <div className="flex flex-row align-middle justify-center my-2">
