@@ -75,18 +75,29 @@ export const editUserInfoSchema = z
   );
 
 export const postSchema = z.object({
-  title: z.string().min(1).max(191),
-  content: z.string().min(1).max(60_000),
+  title: z.string().min(1, "Title is required").max(191, "Title is too long"),
+  content: z
+    .string()
+    .min(1, "Content is required")
+    .max(60_000, "Content is required"),
   authorId: z.string(),
-  imageUrl: z.string(),
-  shortDescription: z.string().min(1).max(150),
-  genre: z.enum([
-    "NEWS",
-    "ENTERTAINMENT",
-    "SPORTS",
-    "CULTURE_AND_ART",
-    "HEALTH",
-    "EDUCATION",
-    "TECHNOLOGY",
-  ]),
+  imageUrl: z.string().min(1, "Please set a picture for the post"),
+  shortDescription: z
+    .string()
+    .min(1, "Short description is required")
+    .max(150, "Short description si too long"),
+  genre: z.enum(
+    [
+      "NEWS",
+      "ENTERTAINMENT",
+      "SPORTS",
+      "CULTURE_AND_ART",
+      "HEALTH",
+      "EDUCATION",
+      "TECHNOLOGY",
+    ],
+    {
+      errorMap: () => ({ message: "Select one of the Genres" }),
+    }
+  ),
 });
