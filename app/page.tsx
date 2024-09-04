@@ -36,14 +36,7 @@ const Home = async ({
       <ActionBar genres={Object.values(Genre)} />
       <div className="grid grid-cols-2 max-[1024px]:grid-cols-1 gap-y-8 gap-x-10">
         {posts.map((post) => (
-          <PostCard
-            key={post.id}
-            genre={post.genre}
-            shortDescription={post.shortDescription}
-            createdAt={post.createdAt.toDateString()}
-            title={post.title}
-            ImageUrl={post.imageUrl}
-          />
+          <PostCard post={post} key={post.id} />
         ))}
       </div>
       <PaginationControl
