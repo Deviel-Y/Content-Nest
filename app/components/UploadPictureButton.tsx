@@ -25,7 +25,7 @@ const UploadPictureButton = ({ updateProfile }: Props) => {
     >
       {({ open }) => (
         <Button
-          className="me-10 max-sm:me-2 max-sm:-translate-y-5"
+          // className="me-10 max-sm:me-2 max-sm:-translate-y-5"
           color="secondary"
           onPress={() => open()}
         >

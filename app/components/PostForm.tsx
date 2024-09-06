@@ -36,10 +36,11 @@ const PostForm = ({ authorId, post }: Props) => {
   }, [post]);
 
   return (
-    <Card isBlurred shadow="lg" className="p-5 mx-5">
+    <Card isBlurred shadow="lg" className="p-4 m-3">
       <h1 className="font-bold text-[30px] mb-3">Create a post</h1>
 
       <form
+        className="flex flex-col gap-10 max-sm:gap-5 justify-center items-center"
         onSubmit={handleSubmit(({ content, shortDescription, title }) => {
           axios
             .post("/api/postContent", {
@@ -52,112 +53,114 @@ const PostForm = ({ authorId, post }: Props) => {
             })
             .then(() => router.push("/"));
         })}
-        className="flex flex-row gap-10 justify-center items-center"
       >
-        <section className="w-full h-full flex flex-col gap-y-5 justify-center items-center">
-          <div className="flex flex-row gap-x-5 justify-between items-center w-full">
-            <div className="w-2/3">
-              <Input
-                {...register("title")}
+        <div className="flex flex-row max-md:flex-col w-full gap-x-10 justify-center items-center">
+          <section className="w-full h-full flex flex-col gap-y-5 justify-center items-center max-lg:w-1/2 max-sm:w-full">
+            <div className="flex flex-row gap-x-5 justify-between items-center w-full">
+              <div className="w-2/3 max-lg:w-1/2">
+                <Input
+                  {...register("title")}
+                  isRequired
+                  label="Main Title"
+                  variant="flat"
+                  defaultValue={post?.title}
+                />
+
+                <p
+                  className={`${
+                    errors.title?.message?.length ? "opacity-100" : "opacity-0"
+                  } transition-opacity duration-250 ease-in-out mt-1 mb-3 text-[13px] text-[#F31260] h-2`}
+                >
+                  {errors.title?.message}
+                </p>
+              </div>
+
+              <div className="w-1/3 max-lg:w-1/2">
+                <GenreSelect genres={genres} genreSelect={setGenre} />
+
+                <p
+                  className={`${
+                    errors.genre?.message?.length ? "opacity-100" : "opacity-0"
+                  } transition-opacity duration-250 ease-in-out mt-1 mb-3 text-[13px] text-[#F31260] h-2`}
+                >
+                  {errors.genre?.message}
+                </p>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <Textarea
+                {...register("shortDescription")}
+                defaultValue={post?.shortDescription}
+                minRows={3}
                 isRequired
-                label="Main Title"
+                label="Short Description"
                 variant="flat"
-                defaultValue={post?.title}
               />
-              <p
-                className={`${
-                  errors.title?.message?.length ? "opacity-100" : "opacity-0"
-                } transition-opacity duration-250 ease-in-out mt-1 mb-3 text-[13px] text-[#F31260] h-2`}
-              >
-                {errors.title?.message}
-              </p>
-            </div>
-
-            <div className="w-1/3">
-              <GenreSelect genres={genres} genreSelect={setGenre} />
 
               <p
                 className={`${
-                  errors.genre?.message?.length ? "opacity-100" : "opacity-0"
+                  errors.shortDescription?.message?.length
+                    ? "opacity-100"
+                    : "opacity-0"
                 } transition-opacity duration-250 ease-in-out mt-1 mb-3 text-[13px] text-[#F31260] h-2`}
               >
-                {errors.genre?.message}
+                {errors.shortDescription?.message}
               </p>
             </div>
-          </div>
 
-          <div className="w-full">
-            <Textarea
-              {...register("shortDescription")}
-              defaultValue={post?.shortDescription}
-              minRows={3}
-              isRequired
-              label="Short Description"
-              variant="flat"
+            <div className="w-full">
+              <Textarea
+                {...register("content")}
+                minRows={10}
+                isRequired
+                label="Content"
+                variant="flat"
+                defaultValue={post?.content}
+              />
+
+              <p
+                className={`${
+                  errors.content?.message?.length ? "opacity-100" : "opacity-0"
+                } transition-opacity duration-250 ease-in-out mt-1 text-[13px] text-[#F31260] h-0`}
+              >
+                {errors.content?.message}
+              </p>
+            </div>
+          </section>
+
+          <section className="w-1/3 h-full flex flex-col justify-center items-start max-lg:items-end max-lg:w-1/2 max-sm:w-full max-sm:mt-10">
+            <Image
+              as={NextLink}
+              alt="Post Image"
+              width={390}
+              height={390}
+              objectFit="cover"
+              src={postImageUrl || imagePlaceholder.src}
             />
 
             <p
               className={`${
-                errors.shortDescription?.message?.length
-                  ? "opacity-100"
-                  : "opacity-0"
-              } transition-opacity duration-250 ease-in-out mt-1 mb-3 text-[13px] text-[#F31260] h-2`}
+                errors.imageUrl?.message?.length ? "opacity-100" : "opacity-0"
+              } transition-opacity duration-250 ease-in-out mt-1 mb-3 text-[13px] text-[#F31260] h-2 self-start`}
             >
-              {errors.shortDescription?.message}
+              {errors.imageUrl?.message}
             </p>
-          </div>
+          </section>
+        </div>
 
-          <div className="w-full">
-            <Textarea
-              {...register("content")}
-              minRows={10}
-              isRequired
-              label="Content"
-              variant="flat"
-              defaultValue={post?.content}
-            />
-
-            <p
-              className={`${
-                errors.content?.message?.length ? "opacity-100" : "opacity-0"
-              } transition-opacity duration-250 ease-in-out mt-1 mb-3 text-[13px] text-[#F31260] h-2`}
-            >
-              {errors.content?.message}
-            </p>
-          </div>
-
-          <div className="flex flex-row gap-x-5 justify-start items-center translate-y-3 w-full">
-            <Button
-              isLoading={isSubmitting}
-              type="submit"
-              color="primary"
-              variant="solid"
-            >
-              Create New Post
-            </Button>
-
-            <UploadPictureButton updateProfile={setPostImageUrl} />
-          </div>
-        </section>
-
-        <section className="w-1/3 h-full flex flex-col justify-center items-start -translate-y-8">
-          <Image
-            as={NextLink}
-            alt="Post Image"
-            width={390}
-            height={390}
-            objectFit="cover"
-            src={postImageUrl || imagePlaceholder.src}
-          />
-
-          <p
-            className={`${
-              errors.imageUrl?.message?.length ? "opacity-100" : "opacity-0"
-            } transition-opacity duration-250 ease-in-out mt-1 mb-3 text-[13px] text-[#F31260] h-2`}
+        <div className="flex flex-row gap-x-5 justify-start items-center w-full max-sm:justify-center">
+          <Button
+            isLoading={isSubmitting}
+            type="submit"
+            color="primary"
+            variant="solid"
           >
-            {errors.imageUrl?.message}
-          </p>
-        </section>
+            Create New Post
+          </Button>
+
+          <UploadPictureButton updateProfile={setPostImageUrl} />
+        </div>
       </form>
     </Card>
   );
