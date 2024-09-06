@@ -103,8 +103,8 @@ const EditUserProfileForm = ({ user }: Props) => {
           </div>
 
           <div className="flex flex-col gap-1">
-            <div className="flex flex-row gap-3 max-sm:flex-col">
-              <div className="flex flex-col w-1/2">
+            <div className="flex flex-row gap-3 max-sm:gap-1 max-sm:flex-col ">
+              <div className="flex flex-col w-1/2 max-sm:w-full">
                 <Input
                   {...register("firstName")}
                   label="First Name"
@@ -125,7 +125,7 @@ const EditUserProfileForm = ({ user }: Props) => {
                 />
               </div>
 
-              <div className="flex flex-col w-1/2">
+              <div className="flex flex-col w-1/2 max-sm:w-full">
                 <Input
                   {...register("lastName")}
                   label="Last Name"

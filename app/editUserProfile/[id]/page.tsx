@@ -16,7 +16,7 @@ const EditUserProfilePage = async ({ params: { id } }: Props) => {
   return (
     <div className="grid grid-cols-2 max-md:grid-cols-1 justify-stretch items-center">
       <div className="p-24 max-lg:p-12 max-md:hidden">
-        <p className="font-bold text-[29px] -mb-5">
+        <p className="font-bold text-[29px] max-lg:text-[25px] -mb-5 max-lg:-mb-3">
           Share your joy with the world at
         </p>
         <h1 className="font-extrabold text-[70px] max-lg:text-[50px]">
