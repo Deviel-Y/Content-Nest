@@ -43,9 +43,9 @@ const PostForm = ({ authorId, post }: Props) => {
         });
 
     toast.promise(postPromise, {
-      error: "Unable to create post",
-      loading: "Creating new post...",
-      success: "Post created successfully",
+      error: post ? "Unable to update post" : "Unable to create post",
+      loading: post ? "Updating new post..." : "Creating new post...",
+      success: post ? "Post updated successfully" : "Post created successfully",
     });
   });
 
