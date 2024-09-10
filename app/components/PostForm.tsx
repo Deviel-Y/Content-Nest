@@ -84,6 +84,7 @@ const PostForm = ({ authorId, post }: Props) => {
                   rules={{ required: "genre is required" }}
                   render={({ field: { onChange } }) => (
                     <GenreSelect
+                      currentGenre={post?.genre}
                       genres={genres}
                       genreSelect={(genre) => onChange(genre)}
                     />
@@ -170,7 +171,7 @@ const PostForm = ({ authorId, post }: Props) => {
             color="primary"
             variant="solid"
           >
-            Create New Post
+            {post ? "Update New Post" : "Create New Post"}
           </Button>
 
           <Controller

@@ -6,13 +6,15 @@ import { Key } from "react";
 import { genreMap } from "../data";
 
 interface Props {
+  currentGenre?: Genre;
   genres: Genre[];
   genreSelect: (genre: Key | null) => void;
 }
 
-const GenreSelect = ({ genres, genreSelect }: Props) => {
+const GenreSelect = ({ genres, genreSelect, currentGenre }: Props) => {
   return (
     <Autocomplete
+      defaultSelectedKey={currentGenre}
       onSelectionChange={genreSelect}
       variant="flat"
       label="Select Genres"

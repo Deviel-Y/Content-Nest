@@ -56,7 +56,7 @@ const EditUserProfileForm = ({ user }: Props) => {
       });
 
     toast.promise(requestPromise, {
-      error: "One of the input fields is invalid",
+      error: "One or more input fields are invalid",
       loading: "Updating...",
       success: "Profile Updated",
     });
