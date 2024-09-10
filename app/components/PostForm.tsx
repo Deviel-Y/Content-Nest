@@ -4,7 +4,7 @@ import imagePlaceholder from "@/public/landscape-placeholder-svgrepo-com.jpeg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, Image, Input, Textarea } from "@nextui-org/react";
 import { Genre, Post } from "@prisma/client";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import NextLink from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -29,6 +29,25 @@ const PostForm = ({ authorId, post }: Props) => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<PostSchemaType>({ resolver: zodResolver(postSchema) });
+  const onSubmit = handleSubmit((data) => {
+    const postPromise = post
+      ? axios
+          .patch(`/api/postContent/${post.id}`, { ...data, authorId })
+          .then(() => {
+            router.push("/");
+            router.refresh();
+          })
+      : axios.post("/api/postContent", { ...data, authorId }).then(() => {
+          router.push("/");
+          router.refresh();
+        });
+
+    toast.promise(postPromise, {
+      error: "Unable to create post",
+      loading: "Creating new post...",
+      success: "Post created successfully",
+    });
+  });
 
   useEffect(() => {
     if (post) setPostImageUrl(post.imageUrl);
@@ -40,21 +59,7 @@ const PostForm = ({ authorId, post }: Props) => {
 
       <form
         className="flex flex-col gap-10 max-sm:gap-5 justify-center items-center"
-        onSubmit={handleSubmit((data) => {
-          const postPromise = axios
-            .post("/api/postContent", { ...data, authorId })
-            .then(() => {
-              router.push("/");
-              router.refresh();
-            })
-            .catch((error: AxiosError) => console.log(error.response?.data));
-
-          toast.promise(postPromise, {
-            error: "Unable to create post",
-            loading: "Creating new post...",
-            success: "Post created successfully",
-          });
-        })}
+        onSubmit={onSubmit}
       >
         <div className="flex flex-row max-md:flex-col w-full gap-x-10 justify-center items-center">
           <section className="w-full h-full flex flex-col gap-y-5 justify-center items-center max-lg:w-1/2 max-sm:w-full">
@@ -82,6 +87,7 @@ const PostForm = ({ authorId, post }: Props) => {
                   name="genre"
                   control={control}
                   rules={{ required: "genre is required" }}
+                  defaultValue={post?.genre}
                   render={({ field: { onChange } }) => (
                     <GenreSelect
                       currentGenre={post?.genre}
@@ -178,6 +184,7 @@ const PostForm = ({ authorId, post }: Props) => {
             name="imageUrl"
             control={control}
             rules={{ required: "Image is required" }}
+            defaultValue={post?.imageUrl}
             render={({ field: { onChange } }) => (
               <UploadPictureButton
                 updateProfile={(image) => {
