@@ -72,7 +72,6 @@ const EditUserProfileForm = ({ user }: Props) => {
             name: `${firstName} ${lastName}`,
             email,
           });
-          toast.success("Profile Updated Successfully");
           router.push("/");
         });
 

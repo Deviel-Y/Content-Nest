@@ -7,8 +7,9 @@ import { Genre, Post } from "@prisma/client";
 import axios from "axios";
 import NextLink from "next/image";
 import { useRouter } from "next/navigation";
-import { Key, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { postSchema, PostSchemaType } from "../validationSchema";
 import GenreSelect from "./GenreSelect";
 import UploadPictureButton from "./UploadPictureButton";
@@ -22,14 +23,12 @@ const PostForm = ({ authorId, post }: Props) => {
   const router = useRouter();
   const genres = Object.values(Genre);
   const [postImageUrl, setPostImageUrl] = useState<string>();
-  const [genre, setGenre] = useState<Key | null>();
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<PostSchemaType>({
-    resolver: zodResolver(postSchema),
-  });
+  } = useForm<PostSchemaType>({ resolver: zodResolver(postSchema) });
 
   useEffect(() => {
     if (post) setPostImageUrl(post.imageUrl);
@@ -41,17 +40,19 @@ const PostForm = ({ authorId, post }: Props) => {
 
       <form
         className="flex flex-col gap-10 max-sm:gap-5 justify-center items-center"
-        onSubmit={handleSubmit(({ content, shortDescription, title }) => {
-          axios
-            .post("/api/postContent", {
-              content,
-              shortDescription,
-              title,
-              authorId,
-              genre,
-              imageUrl: postImageUrl,
-            })
-            .then(() => router.push("/"));
+        onSubmit={handleSubmit((data) => {
+          const postPromise = axios
+            .post("/api/postContent", { ...data, authorId })
+            .then(() => {
+              router.push("/");
+              router.refresh();
+            });
+
+          toast.promise(postPromise, {
+            error: "Unable to create post",
+            loading: "Creating new post...",
+            success: "Post created successfully",
+          });
         })}
       >
         <div className="flex flex-row max-md:flex-col w-full gap-x-10 justify-center items-center">
@@ -76,7 +77,17 @@ const PostForm = ({ authorId, post }: Props) => {
               </div>
 
               <div className="w-1/3 max-lg:w-1/2">
-                <GenreSelect genres={genres} genreSelect={setGenre} />
+                <Controller
+                  name="genre"
+                  control={control}
+                  rules={{ required: "genre is required" }}
+                  render={({ field: { onChange } }) => (
+                    <GenreSelect
+                      genres={genres}
+                      genreSelect={(genre) => onChange(genre)}
+                    />
+                  )}
+                />
 
                 <p
                   className={`${
@@ -152,6 +163,7 @@ const PostForm = ({ authorId, post }: Props) => {
         <div className="flex flex-row gap-x-5 justify-start items-center w-full max-sm:justify-center">
           <Button
             isLoading={isSubmitting}
+            disabled={isSubmitting}
             type="submit"
             color="primary"
             variant="solid"
@@ -159,9 +171,22 @@ const PostForm = ({ authorId, post }: Props) => {
             Create New Post
           </Button>
 
-          <UploadPictureButton updateProfile={setPostImageUrl} />
+          <Controller
+            name="imageUrl"
+            control={control}
+            rules={{ required: "Image is required" }}
+            render={({ field: { onChange } }) => (
+              <UploadPictureButton
+                updateProfile={(image) => {
+                  onChange(image);
+                  setPostImageUrl(image);
+                }}
+              />
+            )}
+          />
         </div>
       </form>
+      <Toaster />
     </Card>
   );
 };

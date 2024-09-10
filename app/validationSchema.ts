@@ -80,8 +80,7 @@ export const postSchema = z.object({
     .string()
     .min(1, "Content is required")
     .max(60_000, "Content is required"),
-  authorId: z.string(),
-  imageUrl: z.string({ message: "Please set a picture" }),
+  imageUrl: z.string({ message: "Please set a picture" }).url().min(1),
   shortDescription: z
     .string()
     .min(1, "Short description is required")
