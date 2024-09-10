@@ -53,7 +53,7 @@ export const editUserInfoSchema = z
       .max(40, "Email is too long")
       .email({ message: "Enter valid type of email" }),
     image: z.string().optional(),
-    isPasswordFieldActive: z.boolean(),
+    isPasswordFieldActive: z.boolean().optional(),
     oldPassword: z
       .string()
       .min(3, "Password must be at least 3 charachers long")

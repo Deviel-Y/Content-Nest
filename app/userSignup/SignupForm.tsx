@@ -31,13 +31,15 @@ const LoginForm = () => {
     <div className="w-full flex justify-center items-center">
       <form
         className="w-2/3"
-        onSubmit={handleSubmit(({ email, password, confirmPassword }) => {
-          axios
-            .post("/api/user", { email, password, confirmPassword })
-            .then(() => {
-              signIn("credentials", { email, password });
-              router.push("/");
+        onSubmit={handleSubmit((data) => {
+          axios.post("/api/user", data).then(() => {
+            signIn("credentials", {
+              email: data.email,
+              password: data.confirmPassword,
+              redirect: true,
+              callbackUrl: "/",
             });
+          });
         })}
       >
         <Card isBlurred className="flex flex-col p-5" shadow="lg">

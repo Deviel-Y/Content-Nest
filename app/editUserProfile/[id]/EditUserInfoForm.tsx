@@ -8,7 +8,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
 interface Props {
@@ -30,10 +30,6 @@ const EditUserProfileForm = ({ user }: Props) => {
   const [isPasswordFieldsActive, setIsPasswordFieldsActive] =
     useState<boolean>(false);
 
-  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(
-    user.image
-  );
-
   const [inputFieldValues, setFieldValues] = useState<InputFields>({
     firstName: user?.name?.split(" ")[0],
     lastName: user?.name?.split(" ")[1],
@@ -43,45 +39,28 @@ const EditUserProfileForm = ({ user }: Props) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { isSubmitting },
   } = useForm<EditUserInfoSchemaType>();
 
-  const onSubmit = handleSubmit(
-    ({
-      firstName,
-      lastName,
-      oldPassword,
-      newPassword,
-      email,
-      confirmPassword,
-    }) => {
-      const requestPromise = axios
-        .patch(`/api/user/${user.id}`, {
-          firstName,
-          lastName,
-          email,
-          oldPassword,
-          newPassword,
-          confirmPassword,
-          image: profileImageUrl,
-          isPasswordFieldActive: isPasswordFieldsActive,
-        })
-        .then(() => {
-          update({
-            ...session?.user,
-            name: `${firstName} ${lastName}`,
-            email,
-          });
-          router.push("/");
+  const onSubmit = handleSubmit((data) => {
+    const requestPromise = axios
+      .patch(`/api/user/${user.id}`, data)
+      .then(() => {
+        update({
+          ...session?.user,
+          name: `${data.firstName} ${data.lastName}`,
+          email: data.email,
         });
-
-      toast.promise(requestPromise, {
-        error: "One of the input fields is invalid",
-        loading: "Updating...",
-        success: "Profile Updated",
+        router.push("/");
       });
-    }
-  );
+
+    toast.promise(requestPromise, {
+      error: "One of the input fields is invalid",
+      loading: "Updating...",
+      success: "Profile Updated",
+    });
+  });
 
   return (
     <div className="w-full flex justify-center items-center">
@@ -96,8 +75,14 @@ const EditUserProfileForm = ({ user }: Props) => {
               </p>
             </div>
 
-            <UploadPictureButton
-              updateProfile={(imageUrl) => setProfileImageUrl(imageUrl)}
+            <Controller
+              name="image"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <UploadPictureButton
+                  updateProfile={(imageUrl) => onChange(imageUrl)}
+                />
+              )}
             />
           </div>
 
@@ -164,13 +149,23 @@ const EditUserProfileForm = ({ user }: Props) => {
             />
 
             <div className="flex flex-col gap-1 mb-3">
-              <Checkbox
-                className="my-1"
-                size="sm"
-                onValueChange={setIsPasswordFieldsActive}
-              >
-                I&apos;d like to change my password
-              </Checkbox>
+              <Controller
+                name="isPasswordFieldActive"
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Checkbox
+                    className="my-1"
+                    size="sm"
+                    isSelected={isPasswordFieldsActive}
+                    onValueChange={(value) => {
+                      onChange(value);
+                      setIsPasswordFieldsActive(value);
+                    }}
+                  >
+                    I&apos;d like to change my password
+                  </Checkbox>
+                )}
+              />
 
               <Input
                 {...register("oldPassword")}
