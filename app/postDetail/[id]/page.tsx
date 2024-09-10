@@ -1,6 +1,7 @@
 import prisma from "@/prisma/client";
 import { Post } from "@prisma/client";
 import { notFound } from "next/navigation";
+import DetailPostActionBar from "./DetailPostActionBar";
 import PostDetail from "./PostDetail";
 import RecentPosts from "./RecentPosts";
 
@@ -19,7 +20,9 @@ const PostDetailPage = async ({ params: { id } }: Props) => {
 
   return (
     <div className="flex flex-col gap-y-5 p-5">
-      <PostDetail post={post} authorId={post.authorId} />
+      <PostDetail post={post} />
+
+      <DetailPostActionBar authorId={post.authorId} post={post} />
 
       <RecentPosts posts={postList} />
     </div>
