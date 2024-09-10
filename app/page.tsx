@@ -22,13 +22,13 @@ const Home = async ({
       title: { contains: search },
       genre: { equals: genre },
     },
+    orderBy: { createdAt: "desc" },
     skip: (currentPage - 1) * pageSize,
     take: pageSize,
   });
 
   const postCount = await prisma.post.count({
     where: { genre, title: { contains: search } },
-    orderBy: { createdAt: "asc" },
   });
 
   return (
