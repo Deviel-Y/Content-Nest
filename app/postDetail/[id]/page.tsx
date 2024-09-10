@@ -19,7 +19,7 @@ const PostDetailPage = async ({ params: { id } }: Props) => {
 
   return (
     <div className="flex flex-col gap-y-5 p-5">
-      <PostDetail post={post} />
+      <PostDetail post={post} authorId={post.authorId} />
 
       <RecentPosts posts={postList} />
     </div>
