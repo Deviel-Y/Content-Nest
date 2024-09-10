@@ -1,16 +1,12 @@
-import { auth } from "@/app/auth";
 import ContentGenreBadge from "@/app/components/ContentGenreBadge";
-import { Button, Image } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 import { Post } from "@prisma/client";
-import { default as NextLink } from "next/link";
 
 interface Props {
   post: Post;
-  authorId: string;
 }
 
-const PostDetail = async ({ post, authorId }: Props) => {
-  const session = await auth();
+const PostDetail = async ({ post }: Props) => {
   return (
     <div className="flex flex-col items-center gap-y-3 ">
       <div className="flex flex-col items-center w-full mb-5">
@@ -19,18 +15,6 @@ const PostDetail = async ({ post, authorId }: Props) => {
         <h2 className="text-xl max-sm:hidden font-semibold">
           {post?.shortDescription}
         </h2>
-
-        {authorId === session?.user?.id && (
-          <Button
-            size="lg"
-            as={NextLink}
-            href={`/editPost/${post.id}`}
-            className="self-end -translate-y-16"
-            color="secondary"
-          >
-            Edit Post
-          </Button>
-        )}
       </div>
 
       <div className="self-start max-sm:flex max-sm:flex-col justify-center items-center">
