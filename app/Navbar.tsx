@@ -50,7 +50,8 @@ const Navbar = () => {
             {isMounted && theme === "light" ? (
               <Image
                 as={NextImage}
-                alt="Brand Icon"
+                priority={true}
+                alt="Light theme brand Icon"
                 src={lightThemeBrandIcon.src}
                 width="70"
                 height="70"
@@ -58,7 +59,8 @@ const Navbar = () => {
             ) : (
               <Image
                 as={NextImage}
-                alt="Brand Icon"
+                priority={true}
+                alt="Dark theme brand Icon"
                 src={darkThemeBrandIcon.src}
                 width="70"
                 height="70"

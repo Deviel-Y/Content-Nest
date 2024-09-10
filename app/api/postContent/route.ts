@@ -10,16 +10,21 @@ export const POST = async (request: NextRequest) => {
 
   try {
     const body: PostSchemaType = await request.json();
-    const { authorId, content, title, genre, imageUrl, shortDescription } =
-      body;
+    const { content, title, genre, imageUrl, shortDescription } = body;
 
     const validation = postSchema.safeParse(body);
     if (!validation.success)
       return NextResponse.json("Invalid Input", { status: 400 });
 
     const newPost = await prisma.post.create({
-      data: { content, title, authorId, genre, imageUrl, shortDescription },
-      include: { author: true },
+      data: {
+        content,
+        title,
+        genre,
+        imageUrl,
+        shortDescription,
+        authorId: session.user?.id!,
+      },
     });
 
     return NextResponse.json(newPost, { status: 201 });

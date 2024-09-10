@@ -19,6 +19,7 @@ const PostCard = ({ post }: Props) => {
           <Image
             as={NextImage}
             alt="Post image"
+            priority={true}
             src={post.imageUrl}
             height={230}
             width={320}

@@ -4,7 +4,7 @@ import imagePlaceholder from "@/public/landscape-placeholder-svgrepo-com.jpeg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, Image, Input, Textarea } from "@nextui-org/react";
 import { Genre, Post } from "@prisma/client";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import NextLink from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -46,7 +46,8 @@ const PostForm = ({ authorId, post }: Props) => {
             .then(() => {
               router.push("/");
               router.refresh();
-            });
+            })
+            .catch((error: AxiosError) => console.log(error.response?.data));
 
           toast.promise(postPromise, {
             error: "Unable to create post",
@@ -144,6 +145,7 @@ const PostForm = ({ authorId, post }: Props) => {
             <Image
               as={NextLink}
               alt="Post Image"
+              priority={true}
               width={390}
               height={390}
               objectFit="cover"
